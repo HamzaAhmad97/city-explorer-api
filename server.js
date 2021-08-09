@@ -32,5 +32,5 @@ app.get('/weather', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Server started and listening on port 8000');
+  console.log('Server started and listening on port 8080');
 });
