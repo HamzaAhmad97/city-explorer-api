@@ -14,7 +14,6 @@ class Forecast {
 app.get('/weather', (req, res) => {
   let { searchQuery } = req.query;
   let city = weatherData.find((city) => city.city_name === searchQuery);
-  console.log(city.city_name);
   if (!city) {
     res.status(404).send('An error occured, please check your entry and try again.');
   } else {
