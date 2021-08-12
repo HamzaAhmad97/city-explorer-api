@@ -16,20 +16,16 @@ class Forecast {
 class Movie {
   constructor(
     title,
-    overview,
-    average_votes,
-    total_votes,
-    image_url,
+    vote_averge,
+    poster_path,
     popularity,
-    released_on
+    release_date
   ) {
     this.title = title;
-    this.overview = overview;
-    this.average_votes = average_votes;
-    this.total_votes = total_votes;
-    this.image_url = image_url;
+    this.vote_averge = vote_averge;
+    this.poster_path = poster_path;
     this.popularity = popularity;
-    this.released_on = released_on;
+    this.release_date = release_date;
   }
 }
 app.get('/weather', (req, res) => {
@@ -72,27 +68,23 @@ app.get('/movies', (req, res) => {
       val.data.results.map((itm) => {
         let {
           title,
-          overview,
-          average_votes,
-          total_votes,
-          image_url,
+          vote_averge,
+          poster_path,
           popularity,
-          released_on,
+          release_date,
         } = itm;
         arr.push(
           new Movie({
             title,
-            overview,
-            average_votes,
-            total_votes,
-            image_url,
+            vote_averge,
+            poster_path,
             popularity,
-            released_on,
+            release_date,
           })
         );
         return;
       });
-      res.send(arr).status(200);
+      res.json(arr).status(200);
     })
     .catch((err) =>
       res.status(404).send('an error occured, please try again.' + err.status)
