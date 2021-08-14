@@ -16,20 +16,18 @@ class Forecast {
 class Movie {
   constructor(
     title,
-    overview,
     average_votes,
-    total_votes,
-    image_url,
+    vote_average,
+    poster_path,
     popularity,
-    released_on
+    release_date
   ) {
     this.title = title;
-    this.overview = overview;
     this.average_votes = average_votes;
-    this.total_votes = total_votes;
-    this.image_url = image_url;
+    this.vote_average = vote_average;
+    this.poster_path = poster_path;
     this.popularity = popularity;
-    this.released_on = released_on;
+    this.release_date = release_date;
   }
 }
 app.get('/weather', (req, res) => {
@@ -40,7 +38,6 @@ app.get('/weather', (req, res) => {
     )
     .then((val) => {
       let arr = [];
-      console.log(val.data.data);
       val.data.data.map((itm) => {
         let { clouds, temp, wind_dir, datetime } = itm;
         arr.push(
@@ -68,30 +65,23 @@ app.get('/movies', (req, res) => {
     )
     .then((val) => {
       let arr = [];
-      console.log(val.data.results.length);
-      val.data.results.map((itm) => {
-        let {
-          title,
-          overview,
-          average_votes,
-          total_votes,
-          image_url,
-          popularity,
-          released_on,
-        } = itm;
-        arr.push(
-          new Movie({
-            title,
-            overview,
-            average_votes,
-            total_votes,
-            image_url,
-            popularity,
-            released_on,
-          })
-        );
-        return;
-      });
+      val.data.results
+        .filter((itm) => itm.media_type === 'movie')
+        .map((itm) => {
+          let { title, vote_average, poster_path, popularity, release_date } =
+            itm;
+          arr.push(
+            new Movie({
+              title,
+              vote_average,
+              poster_path,
+              popularity,
+              release_date,
+            })
+          );
+          return;
+        });
+      console.log(arr);
       res.send(arr).status(200);
     })
     .catch((err) =>
