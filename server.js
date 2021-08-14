@@ -32,6 +32,9 @@ class Movie {
     this.release_date = release_date;
   }
 }
+app.get('/', (req, res) => {
+  res.send('hello').status(200);
+});
 app.get('/weather', (req, res) => {
   let { lat, lon } = req.query;
   console.log(WEATHER_API_KEY);
