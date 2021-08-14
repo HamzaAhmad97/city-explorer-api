@@ -34,6 +34,7 @@ class Movie {
 }
 app.get('/weather', (req, res) => {
   let { lat, lon } = req.query;
+  console.log(WEATHER_API_KEY);
   axios
     .get(
       `http://api.weatherbit.io/v2.0/forecast/daily/?lat=${lat}&lon=${lon}&key=${WEATHER_API_KEY}`
@@ -84,7 +85,6 @@ app.get('/movies', (req, res) => {
           );
           return;
         });
-      console.log(arr);
       res.send(arr).status(200);
 
     })
