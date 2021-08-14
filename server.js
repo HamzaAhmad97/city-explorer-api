@@ -16,15 +16,17 @@ class Forecast {
 class Movie {
   constructor(
     title,
-    average_votes,
-    vote_average,
+
+    vote_averge,
+
     poster_path,
     popularity,
     release_date
   ) {
     this.title = title;
-    this.average_votes = average_votes;
-    this.vote_average = vote_average;
+
+    this.vote_averge = vote_averge;
+
     this.poster_path = poster_path;
     this.popularity = popularity;
     this.release_date = release_date;
@@ -65,6 +67,7 @@ app.get('/movies', (req, res) => {
     )
     .then((val) => {
       let arr = [];
+
       val.data.results
         .filter((itm) => itm.media_type === 'movie')
         .map((itm) => {
@@ -83,6 +86,7 @@ app.get('/movies', (req, res) => {
         });
       console.log(arr);
       res.send(arr).status(200);
+
     })
     .catch((err) =>
       res.status(404).send('an error occured, please try again.' + err.status)
