@@ -16,13 +16,17 @@ class Forecast {
 class Movie {
   constructor(
     title,
+
     vote_averge,
+
     poster_path,
     popularity,
     release_date
   ) {
     this.title = title;
+
     this.vote_averge = vote_averge;
+
     this.poster_path = poster_path;
     this.popularity = popularity;
     this.release_date = release_date;
@@ -36,7 +40,6 @@ app.get('/weather', (req, res) => {
     )
     .then((val) => {
       let arr = [];
-      console.log(val.data.data);
       val.data.data.map((itm) => {
         let { clouds, temp, wind_dir, datetime } = itm;
         arr.push(
@@ -64,27 +67,26 @@ app.get('/movies', (req, res) => {
     )
     .then((val) => {
       let arr = [];
-      console.log(val.data.results.length);
-      val.data.results.map((itm) => {
-        let {
-          title,
-          vote_averge,
-          poster_path,
-          popularity,
-          release_date,
-        } = itm;
-        arr.push(
-          new Movie({
-            title,
-            vote_averge,
-            poster_path,
-            popularity,
-            release_date,
-          })
-        );
-        return;
-      });
-      res.json(arr).status(200);
+
+      val.data.results
+        .filter((itm) => itm.media_type === 'movie')
+        .map((itm) => {
+          let { title, vote_average, poster_path, popularity, release_date } =
+            itm;
+          arr.push(
+            new Movie({
+              title,
+              vote_average,
+              poster_path,
+              popularity,
+              release_date,
+            })
+          );
+          return;
+        });
+      console.log(arr);
+      res.send(arr).status(200);
+
     })
     .catch((err) =>
       res.status(404).send('an error occured, please try again.' + err.status)
