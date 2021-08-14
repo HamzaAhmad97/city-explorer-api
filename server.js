@@ -1,11 +1,10 @@
-const express = require('express');
-const axios = require('axios');
-//const weatherData = require('./data/weather.json');
-const CORS = require('cors');
+const express = require("express");
+const axios = require("axios");
+const CORS = require("cors");
 const app = express();
 app.use(CORS());
 
-require('dotenv').config();
+require("dotenv").config();
 const PORT = process.env.PORT;
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 class Forecast {
@@ -33,10 +32,10 @@ class Movie {
     this.release_date = release_date;
   }
 }
-app.get('/', (req, res) => {
-  res.send('hello').status(200);
+app.get("/", (req, res) => {
+  res.send("API is working").status(200);
 });
-app.get('/weather', (req, res) => {
+app.get("/weather", (req, res) => {
   let { lat, lon } = req.query;
   console.log(WEATHER_API_KEY);
   axios
@@ -51,7 +50,7 @@ app.get('/weather', (req, res) => {
           new Forecast(
             datetime,
             `${
-              clouds ? 'Cloudy' : 'No clouds'
+              clouds ? "Cloudy" : "No clouds"
             }, the temperature is about ${temp}c, and the wind direction is ${wind_dir} degrees.`
           )
         );
@@ -60,11 +59,11 @@ app.get('/weather', (req, res) => {
       res.send(arr).status(200);
     })
     .catch((err) =>
-      res.status(404).send('an error occured, please try again.' + err.status)
+      res.status(404).send("an error occured, please try again." + err.status)
     );
 });
 
-app.get('/movies', (req, res) => {
+app.get("/movies", (req, res) => {
   let { cityName } = req.query;
   axios
     .get(
@@ -74,7 +73,7 @@ app.get('/movies', (req, res) => {
       let arr = [];
 
       val.data.results
-        .filter((itm) => itm.media_type === 'movie')
+        .filter((itm) => itm.media_type === "movie")
         .map((itm) => {
           let { title, vote_average, poster_path, popularity, release_date } =
             itm;
@@ -90,13 +89,12 @@ app.get('/movies', (req, res) => {
           return;
         });
       res.send(arr).status(200);
-
     })
     .catch((err) =>
-      res.status(404).send('an error occured, please try again.' + err.status)
+      res.status(404).send("an error occured, please try again." + err.status)
     );
 });
 
 app.listen(PORT, () => {
-  console.log('Server started and listening on port 8080');
+  console.log("Server started and listening on port 8080");
 });
